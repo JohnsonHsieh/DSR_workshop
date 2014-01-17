@@ -7,4 +7,4 @@
 - 對象：任何對於 R 語言及 R 社群有興趣的各界人士，均歡迎報名參與
 - 人數：100 人（上限）
 - 費用：免費
-- View my slide deck at [http://JohnsonHsieh.github.com/OSSF_TWR_Workshop_02](http://JohnsonHsieh.github.com/OSSF_TWR_Workshop_02)
+- View my slide deck at [http://johnsonhsieh.github.io/DSR_workshop/](http://johnsonhsieh.github.io/DSR_workshop/index.html)
