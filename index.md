@@ -77,11 +77,11 @@ n <- 8; reps <- 10^4; rec <- rep(NA, reps)
 out <- data.frame("size"=n, "cutoff"=1, "successrate"=1/n)
 for(r in 2:n){
   for(k in 1:reps){
-    a <- sample(1:n)
-    comp <- min(a[1:r-1])
+   a <- sample(1:n) # rank of applicants
+    comp <- min(a[1:r-1]) #best one befor rth applicant
     sec <- a[n] #Last one
     for(i in r:n-1){
-      if(a[i] < comp){
+      if(a[i] < comp){ #choose ith applicant better than comp
         sec <- a[i]
         break
       }

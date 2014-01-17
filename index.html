@@ -147,11 +147,11 @@ data.frame(&quot;keep&quot;=mean(x==y1), &quot;change&quot;=mean(x==y2))
 out &lt;- data.frame(&quot;size&quot;=n, &quot;cutoff&quot;=1, &quot;successrate&quot;=1/n)
 for(r in 2:n){
   for(k in 1:reps){
-    a &lt;- sample(1:n)
-    comp &lt;- min(a[1:r-1])
+   a &lt;- sample(1:n) # rank of applicants
+    comp &lt;- min(a[1:r-1]) #best one befor rth applicant
     sec &lt;- a[n] #Last one
     for(i in r:n-1){
-      if(a[i] &lt; comp){
+      if(a[i] &lt; comp){ #choose ith applicant better than comp
         sec &lt;- a[i]
         break
       }
