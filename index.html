@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Statistics with R</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Statistics with R">
+  <meta name="author" content="Johnson Hsieh (謝宗震)">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/zenburn.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="libraries/widgets/bootstrap/css/bootstrap.css"></link>
+<link rel=stylesheet href="libraries/widgets/quiz/css/demo.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+<link rel=stylesheet href="./assets/css/slidify.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="assets/img/Taiwan_R_slidify.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>Statistics with R</h1>
+    <h2>Fantastic examples from R</h2>
+    <p>Johnson Hsieh (謝宗震)<br/>Postdoctoral Reseracher in Biostatistics at NTHU</p>
+  </hgroup>
+  <article></article>  
+  <footer class = 'license'>
+    <a href='http://creativecommons.org/licenses/by-nc-sa/3.0/'>
+    <img width = '80px' src = 'http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png'>
+    </a>
+  </footer>
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>When to use R?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><font size="+3">
+1. Simulation &amp; testing ideas<p>
+2. Statistical analysis<p>
+3. Data mining and machine learning<p>
+4. Data visualzation (Ben&#39;s talk)
+</font></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue dark" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Simulation &amp; testing idea in R</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Monty Hall problem</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>假設你參加一個遊戲節目，你被要求在三扇門中選擇一扇：其中一扇後面有一輛車；其餘兩扇後面則是山羊。你選擇一道門，假設是一號門，然後知道門後面有甚麼的主持人，開啟了另一扇後面有山羊的門，假設是三號門。他然後問你：「你想選擇二號門嗎？」轉換你的選擇對你來說是一種優勢嗎？
+<center>
+<img src="http://upload.wikimedia.org/wikipedia/commons/6/64/Monty-CurlyPicksCar.svg" width="300"><br>
+<img src="http://upload.wikimedia.org/wikipedia/commons/3/3f/Monty_open_door.svg" width="300"><br>
+<font size="2"><a href="http://en.wikipedia.org/wiki/File:Monty-CurlyPicksCar.svg">http://en.wikipedia.org/wiki/File:Monty-CurlyPicksCar.svg</a></font><br>
+<font size="2"><a href="http://en.wikipedia.org/wiki/File:Monty_open_door.svg">http://en.wikipedia.org/wiki/File:Monty_open_door.svg</a></font>
+</center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Monty Hall problem</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>假設你參加一個遊戲節目，你被要求在三扇門中選擇一扇：其中一扇後面有一輛車；其餘兩扇後面則是山羊。你選擇一道門，假設是一號門，然後知道門後面有甚麼的主持人，開啟了另一扇後面有山羊的門，假設是三號門。他然後問你：「你想選擇二號門嗎？」轉換你的選擇對你來說是一種優勢嗎？</p>
+
+<pre><code class="r">B &lt;- 10000
+x &lt;- y1 &lt;- y2 &lt;- rep(0,B)
+for(i in 1:B){
+  x[i] &lt;- sample(1:3,1)
+  y1[i] &lt;- 1
+  y2[i] &lt;- ifelse(x[i]==1, sample(c(2,3),1), x[i])
+}
+data.frame(&quot;keep&quot;=mean(x==y1), &quot;change&quot;=mean(x==y2))
+</code></pre>
+
+<pre><code>   keep change
+1 0.328  0.672
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Secretary problem</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>要聘請一名秘書，有 \(n\) 個應聘者。每面試一人後就要決定是否聘他，如果不聘他，他便不會回來。面試後總能清楚了解應聘者的合度，並能和之前的人做比較。問什麼樣的策略，才使最佳人選被選中的機率最大。</p>
+
+<p>這個問題的最優解是一個停止規則。在這個規則里，面試官會拒絕頭 \(r - 1\) 個應聘者（令他們中的最佳人選為 應聘者 $M$），然後選出第一個比 \(M\) 好的應聘者。</p>
+
+<p><center>
+<img src="image/secretary-army-wallpaper.jpg" width='500px'><br>
+<font size="2"><a href="http://www.wallpapergate.com/wallpaper22876.html">http://www.wallpapergate.com/wallpaper22876.html</a></font>
+</center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Secretary problem</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">n &lt;- 8; reps &lt;- 10^4; rec &lt;- rep(NA, reps)
+out &lt;- data.frame(&quot;size&quot;=n, &quot;cutoff&quot;=1, &quot;successrate&quot;=1/n)
+for(r in 2:n){
+  for(k in 1:reps){
+    a &lt;- sample(1:n)
+    comp &lt;- min(a[1:r-1])
+    sec &lt;- a[n] #Last one
+    for(i in r:n-1){
+      if(a[i] &lt; comp){
+        sec &lt;- a[i]
+        break
+      }
+    }
+    rec[k] &lt;- sec
+  }
+  out[r,] &lt;- rbind(&quot;size&quot;=n, &quot;cutoff&quot;=r, &quot;successrate&quot;=sum(rec==1)/reps)
+}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Secretary problem</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">out
+</code></pre>
+
+<pre><code>  size cutoff successrate
+1    8      1       0.125
+2    8      2       0.313
+3    8      3       0.393
+4    8      4       0.418
+5    8      5       0.387
+6    8      6       0.322
+7    8      7       0.235
+8    8      8       0.120
+</code></pre>
+
+<pre><code class="r">out[which.max(out$successrate),]
+</code></pre>
+
+<pre><code>  size cutoff successrate
+4    8      4       0.418
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Polls analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> <img src="image/polls.png", alt="TVBS民調 柯文哲47%首勝44%連勝文"> <br>
+<font size="2"><a href="http://www.youtube.com/watch?v=W93QmbSB4ow">http://www.youtube.com/watch?v=W93QmbSB4ow</a></font></center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Polls analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="image/TVBS_polls.png", alt="TVBS民調LOGO"> </p>
+
+<p>訪問主題：台北市長可能人選民調</p>
+
+<p>訪問時間：102 年 12 月 26 日至 30 日晚間 18：30-22：00 </p>
+
+<p>調查方法：電話後四碼電腦隨機抽樣，人員電話訪問 </p>
+
+<p>有效樣本：1,025 位 20 歲以上台北市民 </p>
+
+<p>抽樣誤差：95%信心水準下，抽樣誤差為±3.1 個百分點 </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Polls analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>柯文哲 (\(p_1\))：47% ± 3.1% = (43.9%, 50.1%)</li>
+<li>連勝文 (\(p_2\))：44% ± 3.1% = (40.9%, 47.1%)</li>
+<li>柯與連競爭的勝率之估計為何？</li>
+</ul>
+
+<pre><code class="r">n &lt;- 1025 #樣本數
+p1 &lt;- 0.47 #柯的支持度估計
+p2 &lt;- 0.44 #連的支持度估計
+d12 &lt;- p1 - p2 
+s12.diff &lt;- sqrt(p1*(1-p1)/n+p2*(1-p2)/n+2*p1*p2/n) 
+t &lt;- d12/s12.diff
+data.frame(&quot;差異&quot;=d12, &quot;標準誤&quot;=s12.diff, &quot;Z值&quot;=t, &quot;勝率&quot;=pnorm(t))
+</code></pre>
+
+<pre><code>  差異 標準誤  Z值  勝率
+1 0.03 0.0298 1.01 0.843
+</code></pre>
+
+<p><font size="2">Ref: <a href="http://www.pmean.com/04/MultinomialProportions.html">http://www.pmean.com/04/MultinomialProportions.html</a></font></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue dark" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Statistical analysis in R</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <article data-timings="">
+    <p><center><img src="image/bmd.jpg" width=55%><br>
+<font size="2"><a href="http://arthritisbroadcastnetwork.org/2012/04/men-with-chronic-low-back-pain-may-have-reduced-bmd/">http://arthritisbroadcastnetwork.org/2012/04/men-with-chronic-low-back-pain-may-have-reduced-bmd/</a></font>
+</center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Bone Mineral Density</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>美國青少年脊柱骨質密度相對成長資料<br>
+資料來源：Bachrach et al. (1999)</p>
+
+<pre><code class="r">library(ElemStatLearn)
+data(bone) # BMD of 261 north american adolescents
+bone[sample(nrow(bone), 8),]
+</code></pre>
+
+<pre><code>    idnum  age gender  spnbmd
+211   106 18.7   male 0.00715
+88     48 15.1 female 0.02956
+459   342 19.6   male 0.05395
+393   267 15.0 female 0.02568
+440   315 18.7   male 0.02591
+223   111 22.0   male 0.03466
+143    68 16.1 female 0.02667
+343   214 12.8 female 0.06340
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Bone Mineral Density</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>美國青少年脊柱骨質密度相對成長資料<br>
+觀察年齡與骨質密度相對成長之散佈圖</p>
+
+<div class="rimage center"><img src="figure/unnamed-chunk-7.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Bone Mineral Density</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>美國青少年脊柱骨質密度相對成長資料<br>
+觀察年齡與骨質密度相對成長之散佈圖</p>
+
+<div class="rimage center"><img src="figure/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Bone Mineral Density</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>美國青少年脊柱骨質密度相對成長資料<br>
+以性別分組，觀察年齡與骨質密度相對成長之散佈圖</p>
+
+<div class="rimage center"><img src="figure/unnamed-chunk-9.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Bone Mineral Density</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>美國青少年脊柱骨質密度相對成長資料<br>
+利用平滑曲線法 (smooth splines) 觀察不同性別之趨勢</p>
+
+<div class="rimage center"><img src="figure/unnamed-chunk-10.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Bone Mineral Density</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># 骨質密度成長率 vs 年齡
+plot(spnbmd ~ age, data=bone, xlab=&quot;Age&quot;, ylab=&quot;Relative Change in BMD&quot;)
+abline(lm(spnbmd ~ age, data=bone), lwd=2)
+
+# 以性別分層
+plot(spnbmd ~ age, data=bone, col = ifelse(gender==&quot;male&quot;, 4, 2), 
+     xlab=&quot;Age&quot;, ylab=&quot;Relative Change in BMD&quot;)
+legend(&quot;topright&quot;, c(&quot;male&quot;, &quot;Female&quot;), col=c(4, 2), pch=1, bty=&quot;n&quot;, cex=1.2)
+
+# 平滑曲線分析
+sp.male &lt;- with(subset(bone,gender==&quot;male&quot;), smooth.spline(age, spnbmd, df=12))
+sp.female &lt;- with(subset(bone, gender==&quot;female&quot;), smooth.spline(age, spnbmd, df=12))
+plot(spnbmd ~ age, data=bone, col = ifelse(gender==&quot;male&quot;, 4, 2), 
+     xlab=&quot;Age&quot;, ylab=&quot;Relative Change in BMD&quot;, pch=1)
+lines(sp.male, col=4, lwd=5)
+lines(sp.female, col=2, lwd=5)
+legend(&quot;topright&quot;, legend=c(&quot;male&quot;, &quot;Female&quot;), col=c(4, 2), lwd=2, bty=&quot;n&quot;, cex=1.2)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <article data-timings="">
+    <p><center><img src="image/ja_b01.jpg" width=100%></center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <article data-timings="">
+    <p><center><img src="image/news_01.png" width=100%></center>
+<font size="2"><a href="http://www.appledaily.com.tw/appledaily/article/property/20131202/35478355/">http://www.appledaily.com.tw/appledaily/article/property/20131202/35478355/</a></font></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>帝寶房價預測</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>資料來源：不動產實價登錄資料 (2012年8月 ~ 2013年9月)</li>
+<li>頂級豪宅 40 / 21530 件</li>
+<li>加入物件的面積大小、是否購買車位、屋齡、行政區域、樓層高低等因子配適模型</li>
+</ul>
+
+<pre><code class="r">library(mgcv) #provides functions for generalized additive modelling
+dat1 &lt;- readRDS(&quot;dat1.rds&quot;)
+# fit linear model
+g1 &lt;- lm(log10(總價)~面積+車位+屋齡+行政區+floor, data=dat1)
+# fit addiive model with two smooth terms
+g2 &lt;- gam(log10(總價)~s(面積)+車位+s(屋齡)+行政區+floor, data=dat1)
+# Compare adjusted R-squared, 越趨近1模型配適度越好
+data.frame(&quot;linear model&quot;=summary(g1)$adj.r.sq, &quot;additive model&quot;=summary(g2)$r.sq)
+</code></pre>
+
+<pre><code>  linear.model additive.model
+1        0.732          0.935
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>帝寶房價預測</h2>
+  </hgroup>
+  <article data-timings="">
+    <div class="rimage center"><img src="figure/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>帝寶房價預測</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># set dataset, 帝寶格局
+new &lt;- dat1[1:6, c(2,3,4,6,7,12)]
+rownames(new) &lt;- 1:6
+new$面積 &lt;- c(160,160,210,210,260,260)
+new$車位 &lt;- rep(&quot;有車位&quot;,6); 
+new$屋齡 &lt;- rep(8, 6)
+new$行政區 &lt;- rep(&quot;大安區&quot;,6)
+new$floor &lt;- rep(c(&quot;低樓層&quot;,&quot;高樓層&quot;),3)
+# prediction
+tmp &lt;- predict(g2, newdata=new, se.fit=TRUE)
+pred &lt;- 10^cbind(tmp$fit, tmp$fit-tmp$se.fit, tmp$fit+tmp$se.fit)
+data.frame(&quot;建案坪數&quot;=new$面積, &quot;高低樓層&quot;=new$floor, 
+           &quot;總價估計.萬元&quot;=round(pred[,1]/10000),
+           &quot;單價估計.萬元&quot;=round(pred[,1]/10000/new$面積))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>帝寶房價預測 (<a href="http://goo.gl/vT1Smr">http://goo.gl/vT1Smr</a>)</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="image/shiny_01.png" alt=""></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-25" style="background:;">
+  <article data-timings="">
+    <p><center><img src="image/news_02.png" width=100%></center>
+<font size="2"><a href="http://www.appledaily.com.tw/appledaily/article/property/20131226/35533557/">http://www.appledaily.com.tw/appledaily/article/property/20131226/35533557/</a></font></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-26" style="background:;">
+  <article data-timings="">
+    <p><center><img src="image/fly.jpg" width=85%>
+<font size="2"><a href="http://www.bio1000.com/news/1/1867.html">http://www.bio1000.com/news/1/1867.html</a></font>
+</center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-27" style="background:;">
+  <article data-timings="">
+    <p><center><img src="image/drosophila.png" width=100%></center>
+<font size="2"><a href="http://www.appledaily.com.tw/appledaily/article/international/20120317/34096123/">http://www.appledaily.com.tw/appledaily/article/international/20120317/34096123/</a></font></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-28" style="background:;">
+  <article data-timings="">
+    <p><center><img src="image/fly_01.png" width=80%></center><br>
+<font size="2">Shohat-Ophir, G., et al. (2012) <a href="https://www.sciencemag.org/content/335/6074/1351">https://www.sciencemag.org/content/335/6074/1351</a></font></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-29" style="background:;">
+  <article data-timings="">
+    <p><center><img src="image/fly_02.png" width=90%></center><br>
+<font size="2">Shohat-Ophir, G., et al. (2012) <a href="https://www.sciencemag.org/content/335/6074/1351">https://www.sciencemag.org/content/335/6074/1351</a></font></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h3>借酒澆愁愁更愁－探討果蠅求偶被拒絕與其飲酒行為之關聯性</h3>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>學校名稱：國立科學工業園區實驗高級中學</li>
+<li>作者：陳慶豐、陳昌逸； 指導老師：馮蕙卿、揭維邦</li>
+</ul>
+
+<pre><code class="r"># raw data
+dat &lt;- data.frame(id=rep(1:8, each=2),
+                  type=rep(c(&quot;glucose&quot;, &quot;ethanol&quot;), times=8, each=1),
+                  group=rep(c(&quot;reject&quot;, &quot;mate&quot;), times=1, each=8),
+                  ml=c(2.054, 3.677, 1.626, 3.078, 1.840, 3.378, 2.054, 2.694,
+                       2.054, 2.993, 3.680, 2.223, 2.097, 2.608, 3.337, 1.753))
+head(dat)
+</code></pre>
+
+<pre><code>  id    type  group   ml
+1  1 glucose reject 2.05
+2  1 ethanol reject 3.68
+3  2 glucose reject 1.63
+4  2 ethanol reject 3.08
+5  3 glucose reject 1.84
+6  3 ethanol reject 3.38
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h3>借酒澆愁愁更愁－探討果蠅求偶被拒絕與其飲酒行為之關聯性</h3>
+  </hgroup>
+  <article data-timings="">
+    <div class="rimage center"><img src="figure/unnamed-chunk-16.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h3>借酒澆愁愁更愁－探討果蠅求偶被拒絕與其飲酒行為之關聯性</h3>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">tmp &lt;- rep(0, 8)
+for(i in 1:8) {
+  tmp[i] &lt;- ((dat$ml[2*i] - dat$ml[2*i-1])/(dat$ml[2*i] + dat$ml[2*i-1]))
+}
+out &lt;- data.frame(&quot;reject&quot;=tmp[1:4], &quot;mate&quot;=tmp[5:8]) 
+PI.mean &lt;- apply(out, 2, mean) 
+PI.sd &lt;- apply(out, 2, sd)
+library(Hmisc)
+par(cex=1.2)
+errbar(x=1:2, y=PI.mean, yplus=PI.mean+PI.sd, yminus=PI.mean-PI.sd, las=1,
+       xaxt=&quot;n&quot;, xlim=c(0.5,2.5), xlab=&quot;&quot;, ylab=&quot;Preference index&quot;, cex=1.5, lwd=2)
+axis(1, at=1:2, c(&quot;Reject&quot;, &quot;Mate&quot;)) 
+abline(h=0, lty=2)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-33" style="background:;">
+  <article data-timings="">
+    <p><center><img src="image/1991405.jpg" width=90%>
+<font size="2"><a href="http://i.gbc.tw/gb_img/5/001/991/1991405.jpg">http://i.gbc.tw/gb_img/5/001/991/1991405.jpg</a></font></center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>LoL口袋深度分析</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>口袋深度：玩家在達到多少勝場時，能夠運用的英雄數量<br>
+英雄聯盟中可供使用的英雄有100種以上，英雄與英雄之間有若干相剋情形<br>
+會使用的英雄越多被針對的程度越低，因此口袋深度是判斷一個玩家程度的重要指標</p>
+
+<pre><code class="r">library(devtools)
+install_github(&#39;iNEXT&#39;,&#39;JohnsonHsieh&#39;) # http://johnsonhsieh.github.io/iNEXT/
+library(iNEXT) # Chao et al. (2014)
+source_url(&quot;https://gist.github.com/JohnsonHsieh/8389618/raw/qurey.R&quot;) # 戰績網查詢
+id1 &lt;- clean_lol(&quot;ahq_Westdoor&quot;); id2 &lt;- clean_lol(&quot;AZB_TPA_Morning&quot;)
+out &lt;- list(&quot;Westdoor&quot;=id1$win, &quot;Morning&quot;=id2$win)
+names(out[[1]]) &lt;- id1$name; names(out[[2]]) &lt;- id2$name
+lapply(out, function(x) x[x&gt;0])
+</code></pre>
+
+<pre><code>$Westdoor
+  卡薩丁     雷玟   易大師 古拉格斯   奈德麗   希瓦娜   賈克斯   卡力斯   希格斯     凱爾     逆命 
+      13        3        7        7        5        1        6        3        1        2       23 
+    潘森     塔隆     犽宿 卡特蓮娜 奧莉安娜 
+       1        3        4        1        1 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>LoL口袋深度分析 (<a href="http://goo.gl/KngyYO">http://goo.gl/KngyYO</a>)</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">out1 &lt;- iNEXT(id1$win, endpoint=100); out2 &lt;- iNEXT(id2$win, endpoint=100)
+par(family=&quot;STHeiti&quot;)
+plot(out1, ylim=c(0,40), main=&quot;口袋深度分析&quot;, xlab=&quot;勝場數&quot;, ylab=&quot;英雄個數&quot;)
+lines(out2, col=2)
+legend(&quot;topleft&quot;, c(&quot;ahq_Westdoor&quot;, &quot;AZB_TPA_Morning&quot;), col=1:2, pch=19, bty=&quot;n&quot;, lty=1)
+</code></pre>
+
+<div class="rimage center"><img src="figure/unnamed-chunk-21.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue dark" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Data mining and machine learning in R</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-37" style="background:;">
+  <article data-timings="">
+    <p><center>
+<img src="http://www.motherjones.com/files/images/Blog_Obama_Clinton.jpg" width=85%><br>
+<font size="2"><a href="http://www.motherjones.com/files/images/Blog_Obama_Clinton.jpg">http://www.motherjones.com/files/images/Blog_Obama_Clinton.jpg</a></font>
+</center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>The Obama-Clinton Divide</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">primary = read.csv(url(&quot;http://www.stat.ucla.edu/~cocteau/primaries.csv&quot;), head=TRUE) 
+primary$black06pct &lt;- primary$black06/primary$pop06  
+primary &lt;- subset(primary, state_postal!=&quot;MI&quot;) 
+primary &lt;- subset(primary, state_postal!=&quot;FL&quot;) 
+primary &lt;- subset(primary, !(state_postal==&quot;WA&quot; &amp; racetype==&quot;Primary&quot;)) 
+primary.sub &lt;- subset(primary, select=c(county_name, region, winner,
+                                        clinton, obama, pct_hs_grad, black06pct))
+head(primary.sub)
+</code></pre>
+
+<pre><code>  county_name region  winner clinton obama pct_hs_grad black06pct
+1     Autauga      S   obama    1760  2268       0.787     0.1721
+2     Baldwin      S clinton    6259  5450       0.820     0.0964
+3     Barbour      S   obama    1322  2393       0.646     0.4627
+4        Bibb      S clinton     922   755       0.632     0.2190
+5      Blount      S clinton    2735   617       0.705     0.0155
+6     Bullock      S   obama     471  2032       0.605     0.6982
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-39" style="background:;">
+  <article data-timings="">
+    <iframe src="http://www.nytimes.com/imagepages/2008/04/16/us/20080416_OBAMA_GRAPHIC.html" width="70%" height="601"></iframe> 
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-40" style="background:;">
+  <article data-timings="">
+    <p><img src="http://graphics8.nytimes.com/images/2008/04/16/us/0416-nat-subOBAMA.jpg" width=70%></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>The Obama-Clinton Divide</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(rpart) # Recursive partitioning
+library(rpart.plot) # Fancy tree plot
+library(RColorBrewer) # Nice color palettes
+fit = rpart(winner~region+pct_hs_grad+black06pct,data=primary)
+c1 &lt;- ifelse(fit$frame$yval==1, brewer.pal(9, &quot;Greens&quot;)[9], brewer.pal(9, &quot;Blues&quot;)[9])
+c2 &lt;- ifelse(fit$frame$yval==1, brewer.pal(9, &quot;Greens&quot;)[2], brewer.pal(9, &quot;Blues&quot;)[2])
+prp(fit, type=2, extra=1, col=c1, box.col=c2, shadow.col=&quot;gray&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>The Obama-Clinton Divide</h2>
+  </hgroup>
+  <article data-timings="">
+    <div class="rimage center"><img src="figure/unnamed-chunk-24.png" title="plot of chunk unnamed-chunk-24" alt="plot of chunk unnamed-chunk-24" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>How do decision tree work</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center><img src="image/DecisionTree101Explanation.png" width=80%></center>
+<font size="2"><a href="https://github.com/braz/DublinR-ML-treesandforests/">https://github.com/braz/DublinR-ML-treesandforests/</a></font></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-44" style="background:;">
+  <article data-timings="">
+    <div class="rimage center"><img src="figure/unnamed-chunk-25.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>Handwritten digits</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(ElemStatLearn)
+data(zip.train)
+dat &lt;- zip.train[which(zip.train[,1]==3),]
+tmp1 &lt;- tmp2 &lt;- list()
+for(i in 1:9){
+  for(j in 1:7){
+    tmp1[[j]] &lt;- zip2image(dat, i+(j-1)*5)
+  }
+  tmp2[[i]] &lt;- do.call(&quot;cbind&quot;, tmp1)
+}
+im &lt;- do.call(&quot;rbind&quot;,tmp2)
+image(im, col=gray(256:0/256), xlab=&quot;&quot;, ylab=&quot;&quot;, axes=FALSE)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>Handwritten digits</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>以Principal Component Analysis (PCA) 進行手寫學習<br>
+<center><img src="image/handwritten.png"></center></p>
+
+<pre><code class="r">pca &lt;- prcomp((dat[,-1]))
+b1 &lt;- b2 &lt;- round(seq(-4, 4, l=5),1)
+par(mfrow=c(1,3))
+image(matrix(pca$center,16,16),col=gray(256:0/256), main=&quot;Mean&quot;)
+image(matrix(pca$rotation[,1],16,16),col=gray(256:0/256), main=&quot;PC1&quot;)
+image(matrix(-pca$rotation[,2],16,16),col=gray(256:0/256), main=&quot;PC2&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>Handwritten digits</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>以Principal Component Analysis (PCA) 進行手寫學習<br></p>
+
+<div class="rimage center"><img src="figure/unnamed-chunk-29.png" title="plot of chunk unnamed-chunk-29" alt="plot of chunk unnamed-chunk-29" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>Handwritten digits</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">tmp3 &lt;- tmp4 &lt;- list()
+for(i in 1:5){
+  for(j in 1:5){
+    tmp3[[j]] &lt;- matrix(pca$center,16,16) + 
+                 b1[i] * matrix(pca$rotation[,1],16,16) + 
+                 b2[j] * matrix(-pca$rotation[,2],16,16)
+  }
+  tmp4[[i]] &lt;- do.call(&quot;cbind&quot;, tmp3)
+}
+pc.im &lt;- do.call(&quot;rbind&quot;,tmp4)
+plot(pca$x[,1:2], col=3, xlim=c(-6,6), pch=19, cex=0.5, panel.first = grid(6,6,1,2))
+abline(v=0, col=gray(0.2), lwd=2)
+abline(h=0, col=gray(0.2), lwd=3)
+points(x = rep(b1,each=6), y=rep(b2, times=6), col=2, pch=19)
+image(pc.im, col=gray(256:0/256), zlim=c(-0.8,1.2), axes=FALSE, xlab=&quot;PC1&quot;, ylab=&quot;PC2&quot;)
+axis(1, at=seq(0,1,l=5), labels=b1)
+axis(2, at=seq(0,1,l=5), labels=b2)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>Basic idea behind PCA</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="image/fig_pca_principal_component_analysis.png" width=100%>
+<font size="2"><a href="http://www.nlpca.org/fig_pca_principal_component_analysis.png">http://www.nlpca.org/fig_pca_principal_component_analysis.png</a></font></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-50" style="background:;">
+  <hgroup>
+    <h2>Resources</h2>
+  </hgroup>
+  <article data-timings="">
+    <table border=1>
+  <td width=30%>
+    Useful R websites
+  </td>
+  <td width=35%>
+    Basic statistics book with R
+  </td>
+  <td width=35%>
+    Advanced statistics book with R
+  </td>
+  <tr>
+  <td width=30%>
+    <ul>
+      <li> <a href="http://www.statmethods.net/">Quick-R</a>
+      <li> <a href="http://www.r-bloggers.com/">R-bloggers</a>
+      <li> <a href="http://stackoverflow.com/tags/r">StackOverflow</a>
+      <li> <a href="http://www.ptt.cc/bbs/R_Language/index.html">R_Language@ptt.cc</a>
+  </td>
+  <td width=35%>
+    <a href="http://health.adelaide.edu.au/psychology/ccs/teaching/lsr/"><img src="http://health.adelaide.edu.au/psychology/ccs/images/misc/lsr-cover-small.jpg" width=90%></a>
+  </td>
+  <td width=35%>
+    <a href="http://statweb.stanford.edu/~tibs/ElemStatLearn/"><img src="http://statweb.stanford.edu/~tibs/ElemStatLearn/CoverII_small.jpg" width=90%/></a>
+  </td>
+</table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-51" style="background:;">
+  <hgroup>
+    <h2>Come back for more</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Sign up at: <a href="http://www.meetup.com/Taiwan-R">www.meetup.com/Taiwan-R/</a></li>
+<li>Give feedback at: <a href="https://www.facebook.com/Tw.R.User">www.facebook.com/Tw.R.User</a></li>
+<li>MLDM Monday VOD at: <a href="https://www.youtube.com/user/TWuseRGroup">www.youtube.com/user/TWuseRGroup</a></li>
+</ul>
+
+<p><center><img src="image/Taiwan_R.png" alt=""></center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='When to use R?'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Simulation &amp; testing idea in R'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Monty Hall problem'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Monty Hall problem'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Secretary problem'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Secretary problem'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Secretary problem'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Polls analysis'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Polls analysis'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Polls analysis'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='Statistical analysis in R'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title=''>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='Bone Mineral Density'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='Bone Mineral Density'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Bone Mineral Density'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='Bone Mineral Density'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Bone Mineral Density'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Bone Mineral Density'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title=''>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title=''>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='帝寶房價預測'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='帝寶房價預測'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='帝寶房價預測'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='帝寶房價預測 (<a href="http://goo.gl/vT1Smr">http://goo.gl/vT1Smr</a>)'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title=''>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title=''>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title=''>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title=''>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title=''>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='借酒澆愁愁更愁－探討果蠅求偶被拒絕與其飲酒行為之關聯性'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='借酒澆愁愁更愁－探討果蠅求偶被拒絕與其飲酒行為之關聯性'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='借酒澆愁愁更愁－探討果蠅求偶被拒絕與其飲酒行為之關聯性'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title=''>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='LoL口袋深度分析'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='LoL口袋深度分析 (<a href="http://goo.gl/KngyYO">http://goo.gl/KngyYO</a>)'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='Data mining and machine learning in R'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title=''>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='The Obama-Clinton Divide'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title=''>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title=''>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='The Obama-Clinton Divide'>
+         41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='The Obama-Clinton Divide'>
+         42
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=43 title='How do decision tree work'>
+         43
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=44 title=''>
+         44
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=45 title='Handwritten digits'>
+         45
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=46 title='Handwritten digits'>
+         46
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=47 title='Handwritten digits'>
+         47
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=48 title='Handwritten digits'>
+         48
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=49 title='Basic idea behind PCA'>
+         49
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=50 title='Resources'>
+         50
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=51 title='Come back for more'>
+         51
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  <script src="libraries/widgets/bootstrap/js/bootstrap.min.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootbox.min.js"></script>
+<script src="libraries/widgets/quiz/js/jquery.quiz.js"></script>
+<script src="libraries/widgets/quiz/js/mustache.min.js"></script>
+<script src="libraries/widgets/quiz/js/quiz-app.js"></script>
+
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<script>  
+  $(function (){ 
+    $("#example").popover(); 
+    $("[rel='tooltip']").tooltip(); 
+  });  
+  </script>  
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
